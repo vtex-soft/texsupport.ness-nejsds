@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2021/08/16 v1.04, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2021/11/24 v1.05, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -1267,6 +1267,7 @@
     \begingroup
         \let\inits\@firstofone
         \let\fnms\@gobble
+        \def\ead##1##{\@gobble}%
         \no@harm
         \xdef\@runact{%
             \global\noexpand\runauthors@list{\the\runauthors@list#1}%
@@ -1715,7 +1716,7 @@
             \unvbox\keyword@box
             \vskip-\pre@kwd@depth\vtop to\pre@kwd@depth{}%
         \fi
-        \hsize=\columnwidth
+        \hsize=\textwidth
         \ip@normaltext
         \keyword@font
         \parindent\sv@parindent
