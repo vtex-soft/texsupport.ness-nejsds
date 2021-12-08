@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2021/11/24 v1.05, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2021/12/08 v1.06, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -461,7 +461,7 @@
 %%  received, revised, accepted
 \def\received@prefix{Received~}
 \def\revised@prefix{; revised~}
-\def\accepted@prefix{; accepted~}
+\def\accepted@prefix{Accepted~}
 
 \def\@publishedonline{}
 \def\publishedonline#1{\gdef\@publishedonline{#1}}
@@ -1156,6 +1156,7 @@
 
 \def\front@author@defs{%
   \let\bio\inforbio
+  \def\ead##1##{\@gobble}%
   \let\write@aux@au\@write@aux@au
   \protected\def\degs##1{##1}%
   \protected\def\prefix##1{%
