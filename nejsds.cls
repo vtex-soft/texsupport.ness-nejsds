@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2021/12/08 v1.06, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2022/02/15 v1.07, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -1597,7 +1597,9 @@
 \if@load@flushend@    
     \RequirePackage[nospread]{flushend}
     %% Activating `ancient' option, which was not present in TL2010 style version
-    \@ifpackagelater{flushend}{2015/04/08}{\global\@ancient@balance@versiontrue}{}
+    \@ifpackagelater{flushend}{2015/04/08}{
+      \@ifpackagelater{flushend}{2021/10/03}{}{\global\@ancient@balance@versiontrue}
+      }{}
     %% saving discards allows to restore them to original place of last column break
     %% with \atColsBreak{\pagediscards}
     \savingvdiscards=1
@@ -1700,7 +1702,7 @@
 \expandafter\def\csname keyword@MSC2010\endcsname{MSC 2010 subject classifications:}
 \def\keyword@KWD{keywords and phrases:}
 
-%%  raktas=class
+%%  key classes
 \def\keyword@class{KWD}
 
 %%  \keyword@class-> KWD
@@ -1739,7 +1741,8 @@
         \unvbox\keyword@box
     \fi
     }
-
+\newenvironment{keywords}{\keyword}{\endkeyword}
+    
 %%  \kwd[; ]{foo}
 \def\sep{\unskip\string, }
 \newif\if@firstkeywordinlist \@firstkeywordinlisttrue
