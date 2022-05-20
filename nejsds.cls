@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2022/02/15 v1.07, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2022/05/20 v1.08, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -392,11 +392,15 @@
     \ifnum\@firstpage=0\relax
       \firstpage{1}%
     \fi
-    \ifdefined \lastpage@lastpage
-      \ifnum\@lastpage=0\relax
-        \expandafter\lastpage\expandafter{\lastpage@lastpage}%
+    \@ifundefined{lastpage@lastpage}{}{%
+      \def\@temp@relax{\relax}%
+      \ifx\lastpage@lastpage\@temp@relax
+      \else
+        \ifnum\@lastpage=0\relax
+          \expandafter\lastpage\expandafter{\lastpage@lastpage}%
+        \fi
       \fi
-    \fi
+    }%
 }
 
     
