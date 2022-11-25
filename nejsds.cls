@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2022/05/20 v1.08, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2022/11/25 v1.09, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -1909,6 +1909,8 @@
     \@xsect{#3}%
     }
 
+\RequirePackage{textcase}
+
 \setcounter{secnumdepth}{4}
 
 %%  \phantomsection is defined in hyperref
@@ -1919,7 +1921,7 @@
     \@startsection{section}{1}{\z@}%
                   {\medskipamount}%
                   {\smallskipamount}%
-                  {\centering\sffamily\large\bfseries\mathversion{bold}\MakeUppercase}%
+                  {\centering\sffamily\large\bfseries\mathversion{bold}\MakeTextUppercase}%
     }
 \renewcommand\subsection{%
     \@startsection{subsection}{2}{\z@}%
