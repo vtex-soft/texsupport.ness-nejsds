@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2022/11/25 v1.09, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2022/12/06 v1.10, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -259,7 +259,12 @@
 \def\pagenumber@size{\small\upshape}
 
 \def\ps@headings{%
+    \def\pseudo@head@line{%
+        \runninghead@size\rightmark
+        \hbox to18\p@{\hfill\pagenumber@size 000}%
+        }%
     \def\@oddhead{%
+        \csname check@head@line\endcsname
         \runninghead@size
         \hfill\rightmark
         \hbox to18\p@{\hfill\pagenumber@size\thepage}%
@@ -271,6 +276,16 @@
         }%
     \def\@evenfoot{}%
     \def\@oddfoot{}%
+    }
+
+\def\check@head@line{%
+    \bgroup
+        \settowidth\@tempdima{\pseudo@head@line}%
+        \ifdim\@tempdima>\textwidth\relax
+            \ClassError{nejsds}{Running title is too long!}{}%
+            \global\let\check@head@line\relax
+        \fi
+    \egroup
     }
 
 \def\copyright@size{\sffamily\small\raggedright}
@@ -392,15 +407,11 @@
     \ifnum\@firstpage=0\relax
       \firstpage{1}%
     \fi
-    \@ifundefined{lastpage@lastpage}{}{%
-      \def\@temp@relax{\relax}%
-      \ifx\lastpage@lastpage\@temp@relax
-      \else
-        \ifnum\@lastpage=0\relax
-          \expandafter\lastpage\expandafter{\lastpage@lastpage}%
-        \fi
+    \ifdefined \lastpage@lastpage
+      \ifnum\@lastpage=0\relax
+        \expandafter\lastpage\expandafter{\lastpage@lastpage}%
       \fi
-    }%
+    \fi
 }
 
     
@@ -2401,8 +2412,10 @@
 \define@key{bid}{pii}{}
 \define@key{bid}{issn}{}
 \def\bbl@bid#1{\setkeys{bid}{#1}}
-\def\doiurl{\url}
-
+\ifdefined\HCode
+\else
+  \def\doiurl{\url}
+\fi
 %%  For compatibility with old bibtex style
 \def\bdoi#1{\ignorespaces}
 
@@ -2433,31 +2446,35 @@
 
 \let\oauthor\bbl@bauthor
 
-%%  article
-\def\botherref{\@ifnextchar[{\@botherref}{\@botherref[]}}
-\def\@botherref[#1]{%
-    \common@pub@types
-    }
+\ifdefined\HCode
+\else
+    %%  article
+    \def\botherref{\@ifnextchar[{\@botherref}{\@botherref[]}}
+    \def\@botherref[#1]{%
+        \common@pub@types
+        }
 
-%%  article
-\def\barticle{\@ifnextchar[{\@barticle}{\@barticle[]}}
-\def\@barticle[#1]{%
-    \common@pub@types
-    }
+    %%  article
+    \def\barticle{\@ifnextchar[{\@barticle}{\@barticle[]}}
+    \def\@barticle[#1]{%
+        \common@pub@types
+        }
 
-%%  book, booklet,...
-\def\bbook{\@ifnextchar[{\@bbook}{\@bbook[]}}
-\def\@bbook[#1]{%
-    \common@pub@types
-    \let\bisbn\@gobble
-    }
+    %%  book, booklet,...
+    \def\bbook{\@ifnextchar[{\@bbook}{\@bbook[]}}
+    \def\@bbook[#1]{%
+        \common@pub@types
+        \let\bisbn\@gobble
+        }
 
-%%  inproceedings, incollection
-\def\bchapter{\@ifnextchar[{\@bchapter}{\@bchapter[]}}
-\def\@bchapter[#1]{%
-    \common@pub@types
-    \let\bisbn\@gobble
-    }
+    %%  inproceedings, incollection
+    \def\bchapter{\@ifnextchar[{\@bchapter}{\@bchapter[]}}
+    \def\@bchapter[#1]{%
+        \common@pub@types
+        \let\bisbn\@gobble
+        }
+\fi
+
 
 %%  \bptok
 \def\bptok#1{\ignorespaces}
@@ -2602,8 +2619,6 @@
     \fi
     \let\special@mt\origspecial@mt
     }
-
-    
 %%
 %%  ======= INICIALIZATION =======
 %%
