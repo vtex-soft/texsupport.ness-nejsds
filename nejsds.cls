@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2022/12/06 v1.11, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2022/12/18 v1.12, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -910,6 +910,8 @@
 \def\subtitle@note@counter{titlenote}
 \def\relatedarticle@note@counter{titlenote}
 \def\correctionnote@note@counter{titlenote}
+\def\correctedarticle@note@counter{titlenote}
+\def\commentaryarticle@note@counter{titlenote}
 
 \newcounter{authornote}
 \def\author@note@counter{authornote}
