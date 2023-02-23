@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2022/12/18 v1.12, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2023/02/23 v1.13, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -2363,7 +2363,7 @@
 
 %%  This splits MR... (...)
 \def\@MR#1 #2\relax#3{%
-    \href{http://www.ams.org/mathscinet-getitem?mr=#1}{\MRfixed{#3}}%
+    \href{https://mathscinet.ams.org/mathscinet-getitem?mr=#1}{\MRfixed{#3}}%
     }
 \let\MR\MRfixed
 
@@ -2595,7 +2595,7 @@
     \@ifundefined{user@hy@subject}{}{\global\let\@pdfsubject\user@hy@subject}%
     \@ifundefined{user@hy@keywords}{}{\global\let\@pdfkeywords\user@hy@keywords}%
     %%  MathSciNet:
-    %%  \def\MR##1{\href{http://www.ams.org/mathscinet-getitem?mr=##1}{MR##1}}
+    %%  \def\MR##1{\href{https://mathscinet.ams.org/mathscinet-getitem?mr=##1}{MR##1}}
     %%  MR with hyperef
     \def\MR##1{\@MR##1 \relax{##1}}%
     %%  \@ifundefined{Hy@SetCatcodes}{\let\MR\MRfixed}{\relax}%
