@@ -565,7 +565,7 @@ FUNCTION {format.author.editor}
           b "beditor" =
           or
               {"et al."}
-              {"\betal"}
+              {"\betal\ "}
           if$
           #1 'tmp :=
         }

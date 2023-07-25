@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2023/02/23 v1.13, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2023/07/25 v1.14, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -2428,7 +2428,6 @@
 %%  common@pub@types
 \def\common@pub@types{%
     \def\AND{and }%
-    \let\betal\@firstofone
     \let\bmisc\@firstofone
     \let\bnote\@firstofone
     \let\banumber\@firstofone
@@ -2481,6 +2480,8 @@
         }
 \fi
 
+\let\betal@style\relax
+\def\betal{{\betal@style et al.}}
 
 %%  \bptok
 \def\bptok#1{\ignorespaces}
