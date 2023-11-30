@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2023/07/25 v1.14, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2023/11/30 v1.15, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -1956,14 +1956,16 @@
     \@startsection{paragraph}{4}{\z@}%
                   {\smallskipamount}%
                   {-1em}%
-                  {\itshape}%
+                  {\paragraph@style}%
     }
 \renewcommand\subparagraph{%
     \@startsection{subparagraph}{5}{\z@}%
                   {\medskipamount}%
                   {-1em}%
-                  {\itshape}%
+                  {\subparagraph@style}%
     }
+\def\paragraph@style{\normalfont\itshape}
+\def\subparagraph@style{\normalfont\itshape}
 
 %%  Format for the counter
 \def\section@numbersep{.}
