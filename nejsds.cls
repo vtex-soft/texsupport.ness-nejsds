@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2023/11/30 v1.15, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2023/12/05 v1.16, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -2605,6 +2605,7 @@
     }
 \def\write@pdfinfo#1#2{}
 
+\RequirePackage{iftex}
 \RequirePackage{hyperref}
 
 \RequirePackage{url}
@@ -2624,7 +2625,10 @@
     \def\special@mt#1#2#3{\special}%
     \ifdefined\HCode
     \else
-      \RequirePackage{breakurl}%
+      \ifxetex
+      \else
+        \RequirePackage{breakurl}%
+      \fi
     \fi
     \let\special@mt\origspecial@mt
     }
