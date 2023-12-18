@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2023/12/05 v1.16, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2023/12/14 v1.17, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -2078,7 +2078,6 @@
 
 \def\quotation{%
     \list{}{%
-        \quotation@size
         \listparindent\list@parindent
         \itemindent\list@parindent
         \rightmargin\z@
@@ -2088,6 +2087,7 @@
         \parsep\z@
         }%
     \item[\Q@strut]\relax
+    \quotation@size
     }
 \def\endquotation{\endlist}
 
@@ -2103,7 +2103,6 @@
 
 \def\quote{%
     \list{}{%
-        \quote@size
         \listparindent\z@
         \itemindent\listparindent
         \rightmargin2pc%
@@ -2113,6 +2112,7 @@
         \parsep\z@
         }%
     \item\relax
+    \quote@size
     }
 \def\endquote{\endlist}
 %%
