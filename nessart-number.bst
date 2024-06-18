@@ -301,7 +301,7 @@ FUNCTION {make.tag}
 FUNCTION {format.address}
 {address empty$
   { "" }
-  {address "address" make.tag }
+  {address "location" make.tag }
   if$
 }
 
@@ -1790,7 +1790,7 @@ FUNCTION {inproceedings}
   if$
   format.year output
   new.sentence
-  format.title "title" make.tag output.nonnull
+  format.title "ctitle" make.tag output
   format.booktitle output
   make.editors 
   series empty$
@@ -2415,7 +2415,7 @@ REVERSE {reverse.pass}
 
 FUNCTION {write.preambule}
 {   "\begin{thebibliography}{" number.label int.to.str$ * "}" * write$ newline$
-  "% BibTex style file: nessart-number.bst, 2022-10-06" write$ newline$
+  "% BibTex style file: nessart-number.bst, 2024-06-18" write$ newline$
   "\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi" write$ newline$
   "\ifx \binits  \undefined \def \binits#1{#1}\fi" write$ newline$
   "\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi" write$ newline$
