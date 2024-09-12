@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2023/12/14 v1.17, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2024/09/12 v1.19, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -32,6 +32,9 @@
 
 \DeclareOption{seceqn}{\AtBeginDocument{\numberwithin{equation}{section}}}
 
+\newif\if@rotating@loaded \@rotating@loadedfalse
+\DeclareOption{rotating}{\@rotating@loadedtrue}
+
 %%  Spacing
 \def\singlespacing{\renewcommand{\baselinestretch}{}\large\normalsize}
 \def\doublespacing{\renewcommand{\baselinestretch}{1.6}\large\normalsize}
@@ -56,6 +59,14 @@
 \def\@publisher{New England Statistical Society}
 \def\@publisheraddress{}
 \def\journal@url{\ip@journal@url{nejsds}}
+
+%%% OTRS#142065 - big {sidewaystable} with {htpicture} in tex4ht make incomplete
+\if@rotating@loaded
+  \ifdefined\FinalHTPictureRun
+    \PassOptionsToPackage{figuresright}{rotating}
+  \fi
+  \AtEndOfClass{\RequirePackage{rotating}}
+\fi
 
 %%
 %%  <<<<<<< OPTIONS <<<<<<<
@@ -84,12 +95,11 @@
     \AtBeginDocument{\set@natbib}%
     }
 
-\RequirePackage{rotating}
-    
+\RequirePackage{graphicx}
+
 \IfFileExists{vtexgraphicx.sty}{
       \InputIfFileExists{nejsds-vtex.sty}{}{}
   }{}
-  
   
 \if@load@natbib@
     \@ifundefined{load@natbib}{}{\load@natbib}%
@@ -394,8 +404,8 @@
         }%
     }
 \let\@arxiv\relax
-%%  http://arxiv.org/abs/math.PR/0603300
-\def\arxiv@base{http://arxiv.org/abs/}
+%%  https://arxiv.org/abs/math.PR/0603300
+\def\arxiv@base{https://arxiv.org/abs/}
 
 %%  firstpage, lastpage, pagerange
 
@@ -1589,10 +1599,9 @@
                         \safe@phantomsection{\addcontentsline{toc}{section}{Authors' addresses}}%
                     \fi
                 \fi
-                \begin{tabular}[t]{@{}p{\columnwidth}@{}}
-                    \csname author\@tmp\endcsname. 
-                    \csname address\@tmp\endcsname
-                \end{tabular}%
+                    \clubpenalties 1 10000
+                    \csname author\@tmp\endcsname.~%
+                    \csname address\@tmp\endcsname\par%
                 }%
     \egroup
     }
@@ -1617,20 +1626,10 @@
 
 \if@load@flushend@    
     \RequirePackage[nospread]{flushend}
-    %% Activating `ancient' option, which was not present in TL2010 style version
-    \@ifpackagelater{flushend}{2015/04/08}{
-      \@ifpackagelater{flushend}{2021/10/03}{}{\global\@ancient@balance@versiontrue}
-      }{}
-    %% saving discards allows to restore them to original place of last column break
-    %% with \atColsBreak{\pagediscards}
-    \savingvdiscards=1
-    % \atColsBreak{\pagediscards}
 \fi
     
 %%  Invoke \printaddresses at end of document:
-\AtBeginDocument{%
-    \preto\enddocument{\history@fmt\printaddresses}%
-    }
+\AtEndDocument{\history@fmt\printaddresses}
 %%
 %%  ======= DEDICATION =======
 %%
@@ -1921,7 +1920,7 @@
         \def\@svsechd{#4{\hskip #1\relax #5\aftersec@dot}}%
     \fi
     \ifnum\ssection@level=1%
-        \phantomsection\addcontentsline{toc}{section}{#5}%
+        \addcontentsline{toc}{section}{#5}%
     \fi
     \@xsect{#3}%
     }
