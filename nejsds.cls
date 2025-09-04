@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2024/09/12 v1.19, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2025/09/03 v1.20, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -255,6 +255,9 @@
 \PassOptionsToPackage{cmex10}{amsmath}
 \RequirePackage{amsmath}
 \allowdisplaybreaks
+\ifdefined\noaccents@
+    \noaccents@
+\fi
 \@addtoreset{equation}{section}
 \renewcommand\theequation{\thesection.\@arabic\c@equation}
 
