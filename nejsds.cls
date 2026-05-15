@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2025/09/03 v1.20, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2026/05/15 v1.23, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -65,7 +65,25 @@
   \ifdefined\FinalHTPictureRun
     \PassOptionsToPackage{figuresright}{rotating}
   \fi
-  \AtEndOfClass{\RequirePackage{rotating}}
+  \AtEndOfClass{%
+    \RequirePackage{rotating}%
+      \renewenvironment{sidewaystable}%
+        {%
+          \let\@makecaption\@maketablecaption
+          \@rotfloat{table}%
+        }%
+        {%
+          \end@rotfloat
+        }%
+      \renewenvironment{sidewaystable*}%
+        {%
+          \let\@makecaption\@maketablecaption
+          \@rotdblfloat{table}%
+        }%
+        {%
+          \end@rotdblfloat
+        }%
+    }
 \fi
 
 %%
@@ -100,7 +118,11 @@
 \IfFileExists{vtexgraphicx.sty}{
       \InputIfFileExists{nejsds-vtex.sty}{}{}
   }{}
-  
+
+\ifcsundef{jobstart@date@info}%
+  {\xdef\jobstart@date@info{\the\year\two@digits{\the\month}\two@digits{\the\day}}}%
+  {}
+
 \if@load@natbib@
     \@ifundefined{load@natbib}{}{\load@natbib}%
 \fi
@@ -1720,7 +1742,13 @@
 \newbox\keyword@box
 \newdimen\pre@kwd@depth
 
-\def\keyword@AMS{AMS 2000 subject classifications:}
+\ifnum\jobstart@date@info>20260428\relax
+    \def\keyword@AMS{%
+        \ClassError{nejsds}{Please use [class=MSC] instead of [class=AMS]}{}%
+        }
+\else
+    \def\keyword@AMS{AMS 2000 subject classifications:}
+\fi
 \def\keyword@MSC{MSC 2010 subject classifications:}
 \expandafter\def\csname keyword@MSC2010\endcsname{MSC 2010 subject classifications:}
 \def\keyword@KWD{keywords and phrases:}
@@ -1770,9 +1798,29 @@
 \def\sep{\unskip\string, }
 \newif\if@firstkeywordinlist \@firstkeywordinlisttrue
 
-\DeclareRobustCommand*\kwd{%
-    \@ifnextchar[\@kwd{\@kwd[\kwd@sep]}%
+\def\kwdgroup{%
+    \@ifnextchar[\@kwdgroup{\@kwdgroup[]}%
     }
+\def\@kwdgroup[#1]#2{%
+    \def\kwd@sep{\ }%
+    \@firstkeywordinlisttrue
+    \ifstrequal{#1}{type=primary}{\kwdgroup@primary}{\unskip}%
+    \ifstrequal{#1}{type=secondary}{\kwdgroup@secondary}{\unskip}%
+    #2\unskip%
+    }
+\def\kwdgroup@primary{Primary}
+\def\kwdgroup@secondary{\unskip; secondary}
+\ifnum\jobstart@date@info>20260428\relax
+    \DeclareRobustCommand*\kwd{%
+        \@ifnextchar[%
+            {\ClassError{nejsds}{Don't use square brackets '[...]' in \string\kwd!}{}}%
+            {\@kwd[\kwd@sep]}%
+        }
+\else
+    \DeclareRobustCommand*\kwd{%
+        \@ifnextchar[\@kwd{\@kwd[\kwd@sep]}%
+        }
+\fi
 \def\@kwd[#1]#2{%
     \unskip#1{#2}%
     \if@firstkeywordinlist
@@ -2135,7 +2183,6 @@
                  {\let\@makecaption\@maketablecaption
                   \@dblfloat{table}}%
                  {\end@dblfloat}
-
 %%  Various rules
 \let\savehline\hline
 \def\thline{\noalign{\vskip3pt}\savehline\noalign{\vskip3pt}}
