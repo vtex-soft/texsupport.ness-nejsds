@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nejsds}[2026/05/15 v1.23, driver class for NEJSDS journal]
+\ProvidesClass{nejsds}[2026/07/16 v1.24, driver class for NEJSDS journal]
 %% mandatory command for tex4ht proper file load 
 \def\fmt@name{nejsds}
 
@@ -1792,8 +1792,11 @@
         \unvbox\keyword@box
     \fi
     }
-\newenvironment{keywords}{\keyword}{\endkeyword}
-    
+\ifnum\jobstart@date@info>20260716\relax
+\else
+    \newenvironment{keywords}{\keyword}{\endkeyword}
+\fi
+
 %%  \kwd[; ]{foo}
 \def\sep{\unskip\string, }
 \newif\if@firstkeywordinlist \@firstkeywordinlisttrue
